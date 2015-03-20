@@ -2,12 +2,12 @@ package models
 
 import scala.slick.driver.PostgresDriver.simple._
 import play.api.Play.current
-import play.api.data.Forms._
+
 case class Configuration(id: Option[Int] = None, message: String)
 
 class ConfigurationTable(tag: Tag) extends Table[Configuration](tag, "configuration") {
   // Auto Increment the id primary key column
-  def id = column[Option[Int]]("id", O.PrimaryKey, O.AutoInc)
+  def id = column[Int]("id", O.PrimaryKey, O.AutoInc)
   def message = column[String]("message")
   // the * projection (e.g. select * ...) auto-transforms the tupled
   // column values to / from a Configuration
