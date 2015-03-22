@@ -3,7 +3,7 @@ package models
 import scala.slick.driver.PostgresDriver.simple._
 import play.api.Play.current
 
-case class UserConfiguration(id: Option[Int] = None, configuration_id: Option[Int], ip: String)
+case class UserConfiguration(id: Option[Int] = None, configuration_id: Int, ip: String)
 
 class UserConfigurationTable(tag : Tag) extends Table[UserConfiguration](tag, "user_configuration") {
   // Auto Increment the id primary key column
