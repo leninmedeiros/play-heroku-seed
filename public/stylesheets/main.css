@@ -2,6 +2,39 @@ html {
     background: #eee;
 }
 
+input.buttonUmaForca
+{
+    padding: 4px 10px 5px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-decoration: none;
+    color: #fff;
+    background-color: #858d93;
+    border-radius: 0;
+    border-color: #fff;
+}
+input.buttonUmaForca:hover
+{
+    background-color: #F90;
+}
+
+a.buttonUmaForca
+{
+    padding: 4px 10px 5px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-decoration: none;
+    color: #fff;
+    background-color: #858d93;
+    border-radius: 0;
+    border-color: #fff;
+}
+a.buttonUmaForca:hover
+{
+    background-color: #F90;
+}
+
+
 a.post-tag
 {
     text-decoration: none!important;
@@ -49,6 +82,7 @@ section#main {
     padding: 5em 2em;
     border-bottom: 1px solid #ccc;
     min-height: 600px;
+    padding-top: 1em;
 }
 
 section#main .topRight {
@@ -90,7 +124,6 @@ table.computers .header a {
 
 #pagination ul {
     position: absolute;
-    right: 0;
 }
 
 #pagination ul .current a {

@@ -1,6 +1,6 @@
 # --- !Ups
-----Table 'question' ups codes - INIT
---
+--Table 'question' ups codes - INIT
+
 --CREATE TABLE "question" (
 --    "id" SERIAL NOT NULL PRIMARY KEY,
 --    "title" TEXT,

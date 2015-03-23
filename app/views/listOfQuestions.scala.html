@@ -21,19 +21,17 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 
 @main {
 
-<h1>@Messages("questions.list.title", currentPage.total)</h1>
-
 @flash.get("success").map { message =>
 <div class="alert-message warning">
     <strong>Pronto!</strong> @message
 </div>
 }
 
-<div id="actions">
+<div id="actions" align="right">
 
     @helper.form(action=routes.Application.listOfQuestions()) {
-    <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Procure por algum assunto...">
-    <input type="submit" id="searchsubmit" value="Filtrar por assunto" class="btn primary">
+        <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Procure por algum assunto...">
+        <input type="submit" id="searchsubmit" value="Filtrar por assunto" class="buttonUmaForca">
     }
 
 </div>
@@ -68,32 +66,34 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 
     </tbody>
 </table>
+<center>
+    <div id="pagination" class="pagination">
+        <ul>
+            @currentPage.prev.map { page =>
+            <li class="prev">
+                <a href="@link(page)">&larr; Anteriores</a>
+            </li>
+            }.getOrElse {
+            <li class="prev disabled">
+                <a>&larr; Anteriores</a>
+            </li>
+            }
+            <li class="current">
+                <a>Exibindo @(currentPage.offset + 1) a @(currentPage.offset + questions.size) de @currentPage.total</a>
+            </li>
+            @currentPage.next.map { page =>
+            <li class="next">
+                <a href="@link(page)">Próximas &rarr;</a>
+            </li>
+            }.getOrElse {
+            <li class="next disabled">
+                <a>Próximas &rarr;</a>
+            </li>
+            }
+        </ul>
+    </div>
+</center>
 
-<div id="pagination" class="pagination">
-    <ul>
-        @currentPage.prev.map { page =>
-        <li class="prev">
-            <a href="@link(page)">&larr; Anteriores</a>
-        </li>
-        }.getOrElse {
-        <li class="prev disabled">
-            <a>&larr; Anteriores</a>
-        </li>
-        }
-        <li class="current">
-            <a>Exibindo @(currentPage.offset + 1) a @(currentPage.offset + questions.size) de @currentPage.total</a>
-        </li>
-        @currentPage.next.map { page =>
-        <li class="next">
-            <a href="@link(page)">Próximas &rarr;</a>
-        </li>
-        }.getOrElse {
-        <li class="next disabled">
-            <a>Próximas &rarr;</a>
-        </li>
-        }
-    </ul>
-</div>
 
 }.getOrElse {
 
