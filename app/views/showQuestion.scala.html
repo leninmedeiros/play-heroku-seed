@@ -1,0 +1,23 @@
+@(question: Question, shareMessage: String, page: Int, currentOrderBy: Int, currentFilter: String)(implicit flash: play.api.mvc.Flash)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main {
+
+<div class="question-title">
+    <h1>@question.title</h1>
+</div>
+
+<div class="question-body">
+    @Html(question.body)
+</div>
+
+<div class="actions" align="right">
+    <a target="_blank" href="@question.link" class="btn primary">Responder no Stack Overflow</a>
+    <a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="btn primary">@shareMessage</a>
+    <a href="@routes.Application.listOfQuestions(page, currentOrderBy, currentFilter)" class="btn">Voltar</a>
+</div>
+
+}

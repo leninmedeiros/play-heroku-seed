@@ -1,0 +1,98 @@
+html {
+    background: #eee;
+}
+
+a.post-tag
+{
+    text-decoration: none!important;
+    color: #FFFFFF;
+    background-color: #398BCA;
+    padding: .25em .5em;
+    margin: 2px 2px 2px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+a img
+{
+  border: 0 none;
+}
+.image-link
+{
+  text-decoration: none!important;
+  background-color:#FFFFFF;
+  border-width:0px;
+  padding:5px;
+  display: inline-table;
+}
+
+div.question-body
+{
+    border-top:1px solid #ddd;
+    padding-left: 1.5cm;
+    padding-right: 1.5cm;
+    padding-top: 0.5cm;
+    padding-bottom: 0.5cm;
+}
+
+header h1 {
+    padding: 0.4em 1.1em;
+    color: white;
+    font-weight: normal;
+    font-size: 24px;
+}
+
+section#main {
+    position: relative;
+    padding: 5em 2em;
+    border-bottom: 1px solid #ccc;
+    min-height: 600px;
+}
+
+section#main .topRight {
+    position: absolute;
+    right: 20px;
+    top: 70px;
+}
+
+table.computers em {
+    color: #aaa;
+}
+
+table.computers .col3, table.computers .col4 {
+    width: 10%;
+    min-width: 100px;
+}
+
+table.computers .col5 {
+    width: 30%;
+    min-width: 300px;
+}
+
+table.computers .header a {
+}
+
+#actions {
+    position: relative;
+}
+
+#actions #add {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#pagination {
+    position: relative;
+}
+
+#pagination ul {
+    position: absolute;
+    right: 0;
+}
+
+#pagination ul .current a {
+    color: #666;
+}

@@ -21,11 +21,6 @@
 --
 ----Table 'question' ups codes - END
 
-CREATE TABLE "USERS" (
-    "NAME" VARCHAR(254) NOT NULL,
-    "ID" SERIAL NOT NULL PRIMARY KEY
-);
-
 CREATE TABLE "configuration" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "message" VARCHAR(100)
@@ -65,7 +60,6 @@ CREATE TABLE "displayed_question" (
 );
 
 # --- !Downs
-DROP TABLE "USERS";
 DROP TABLE "displayed_question";
 DROP TABLE "shared_question";
 DROP TABLE "user_configuration";

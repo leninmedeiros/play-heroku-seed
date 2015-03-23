@@ -23,8 +23,8 @@ object ConfigurationTable {
 	def create(newConfiguration: Configuration) = db.withTransaction{ implicit session =>
 		configurations += newConfiguration
 	}
-	def find(id: Int): Configuration = db.withSession{ implicit session =>
-		configurations.filter(_.id === id).first
+	def findById(id: Int): Option[Configuration] = db.withSession{ implicit session =>
+		Some(configurations.filter(_.id === id).first)
 	}
 	def update(updateConfiguration: Configuration) = db.withTransaction{ implicit session =>
 		configurations.filter(_.id === updateConfiguration.id).update(updateConfiguration)

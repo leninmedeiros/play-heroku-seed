@@ -22,10 +22,14 @@ object UserConfigurationTable {
     users.sortBy(_.id.asc.nullsFirst).list
   }
   def insert(newUser: UserConfiguration) = db.withTransaction{ implicit session =>
-    users += newUser
+    if (this.findByIp(newUser.ip).isEmpty) {
+      users += newUser
+    } else {
+      this.update(newUser)
+    }
   }
-  def findByIp(ip: String): UserConfiguration= db.withSession{ implicit session =>
-    users.filter(_.ip === ip).first
+  def findByIp(ip: String): List[UserConfiguration]= db.withSession{ implicit session =>
+    users.filter(_.ip === ip).list
   }
   def update(updateUser: UserConfiguration) = db.withTransaction{ implicit session =>
     users.filter(_.id === updateUser.id).update(updateUser)

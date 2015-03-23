@@ -38,8 +38,8 @@ case class Page[A](items: Seq[A], page: Int, offset: Int, total: Int) {
 object QuestionTable {
   val db = play.api.db.slick.DB
   val questions = TableQuery[QuestionTable]
-  def findById(id: Int): Question = db.withSession{ implicit session =>
-    questions.filter(_.id === id).first
+  def findById(id: Int): Option[Question] = db.withSession{ implicit session =>
+    Some(questions.filter(_.id === id).first)
   }
   def update(updateQuestion: Question) = db.withTransaction{ implicit session =>
     questions.filter(_.id === updateQuestion.id).update(updateQuestion)

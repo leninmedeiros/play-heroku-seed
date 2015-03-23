@@ -1,0 +1,37 @@
+@(question: Question, page: Int, currentOrderBy: Int, currentFilter: String)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main {
+
+<center>
+    <br /> <br /> <br />
+    <h1>Você pode ajudar compartilhando nas seguintes redes sociais:</h1>
+    <br />
+    <center>
+        <a target="_blank" class="image-link" href="https://plus.google.com/share?url=@question.link">
+            <img src='@routes.Assets.at("stylesheets/images/google-plus-logo-gray.png")'
+                 onmouseover='this.src="@routes.Assets.at("stylesheets/images/google-plus-logo.png")"'
+                 onmouseout='this.src="@routes.Assets.at("stylesheets/images/google-plus-logo-gray.png")"'>
+        </a>
+        &nbsp;
+        <a target="_blank" class="image-link" href="https://www.facebook.com/sharer/sharer.php?u=@question.link">
+            <img src='@routes.Assets.at("stylesheets/images/facebook-logo-gray.png")'
+                 onmouseover='this.src="@routes.Assets.at("stylesheets/images/facebook-logo.png")"'
+                 onmouseout='this.src="@routes.Assets.at("stylesheets/images/facebook-logo-gray.png")"'>
+        </a>
+        &nbsp;
+        <a target="_blank" class="image-link" href="https://twitter.com/intent/tweet?text=Será+que+você+pode+ajudar?&url=@question.link">
+            <img src='@routes.Assets.at("stylesheets/images/twitter-logo-gray.png")'
+                 onmouseover='this.src="@routes.Assets.at("stylesheets/images/twitter-logo.png")"'
+                 onmouseout='this.src="@routes.Assets.at("stylesheets/images/twitter-logo-gray.png")"'>
+        </a>
+    </center>
+    <br /><br /><br />
+    <a href="@routes.Application.listOfQuestions(page, currentOrderBy, currentFilter)" class="btn">Voltar para a lista</a>
+    &nbsp;
+    <a href="@routes.Application.showQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="btn">Voltar para a pergunta</a>
+</center>
+}

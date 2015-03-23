@@ -54,7 +54,7 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
     case (question) => {
     <tr>
         <td>
-            @question.title
+            <a href="@routes.Application.showQuestion(question.id.get, currentPage.page, currentOrderBy, currentFilter)">@question.title</a>
         </td>
         <td>
             @question.creationDate
