@@ -1,0 +1,3 @@
+# Messages
+
+questions.list.title={0,choice,0#Nenhuma questão encontrada|1#Uma questão encontrada|1<{0,number,integer} questões encontradas}

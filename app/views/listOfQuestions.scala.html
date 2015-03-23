@@ -1,0 +1,105 @@
+@(currentPage: Page[(Question)], currentOrderBy: Int, currentFilter: String)(implicit flash: play.api.mvc.Flash)
+
+@****************************************
+* Helper generating navigation links    *
+****************************************@
+@link(newPage: Int, newOrderBy: Option[Int] = None) = @{
+routes.Application.listOfQuestions(newPage, newOrderBy.map { orderBy =>
+if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
+}.getOrElse(currentOrderBy), currentFilter)
+
+}
+
+@**********************************
+* Helper generating table headers *
+***********************************@
+@header(orderBy: Int, title: String) = {
+<th class="col@orderBy header @if(scala.math.abs(currentOrderBy) == orderBy) @{if(currentOrderBy < 0) "headerSortDown" else "headerSortUp"}">
+<a href="@link(0, Some(orderBy))">@title</a>
+</th>
+}
+
+@main {
+
+<h1>@Messages("questions.list.title", currentPage.total)</h1>
+
+@flash.get("success").map { message =>
+<div class="alert-message warning">
+    <strong>Pronto!</strong> @message
+</div>
+}
+
+<div id="actions">
+
+    @helper.form(action=routes.Application.listOfQuestions()) {
+    <input type="search" id="searchbox" name="f" value="@currentFilter" placeholder="Procure por algum assunto...">
+    <input type="submit" id="searchsubmit" value="Filtrar por assunto" class="btn primary">
+    }
+
+</div>
+
+@Option(currentPage.items).filterNot(_.isEmpty).map { questions =>
+
+<table id="tableListOfQuestions" class="computers zebra-striped">
+    <thead>
+    <tr>
+        @header(2, "Pergunta:")
+        @header(3, "Realizada em:")
+        @header(4, "Assunto(s):")
+    </tr>
+    </thead>
+    <tbody>
+
+    @questions.map {
+    case (question) => {
+    <tr>
+        <td>
+            @question.title
+        </td>
+        <td>
+            @question.creationDate
+        </td>
+        <td>
+            @question.tags
+        </td>
+    </tr>
+    }
+    }
+
+    </tbody>
+</table>
+
+<div id="pagination" class="pagination">
+    <ul>
+        @currentPage.prev.map { page =>
+        <li class="prev">
+            <a href="@link(page)">&larr; Anteriores</a>
+        </li>
+        }.getOrElse {
+        <li class="prev disabled">
+            <a>&larr; Anteriores</a>
+        </li>
+        }
+        <li class="current">
+            <a>Exibindo @(currentPage.offset + 1) a @(currentPage.offset + questions.size) de @currentPage.total</a>
+        </li>
+        @currentPage.next.map { page =>
+        <li class="next">
+            <a href="@link(page)">Próximas &rarr;</a>
+        </li>
+        }.getOrElse {
+        <li class="next disabled">
+            <a>Próximas &rarr;</a>
+        </li>
+        }
+    </ul>
+</div>
+
+}.getOrElse {
+
+<div class="well">
+    <em>Nada a ser exibido</em>
+</div>
+
+}
+}
