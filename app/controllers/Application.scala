@@ -1,5 +1,8 @@
 package controllers
 
+import java.sql.Date
+import java.text.{SimpleDateFormat, DateFormat}
+
 import scala.concurrent._
 import play.api.libs.concurrent.Execution.Implicits.defaultContext
 
@@ -32,6 +35,14 @@ object Application extends Controller {
   def index = Action { request =>
     // formatar as datas das questões
     // formatar as tags das questões
+    //    FIX ME: put this solution in some js to be executed when the page loads to avoid this data update in db
+    if (UserConfigurationTable.listUsers.isEmpty) {
+      QuestionTable.listQuestions.map { question =>
+        QuestionTable.update(Question(question.id,question.title,
+          question.body,question.creationDate,question.link,
+          this.formatTags(question.tags),this.formatCreationDateString(question.creationDate)))
+      }
+    }
 
     var current_last_configuration:LastConfiguration = new LastConfiguration(Some(0)) // last new configuration
     var current_configuration = 0 // the current configuration
@@ -99,5 +110,23 @@ object Application extends Controller {
       SharedQuestionTable.insert(SharedQuestion(None,user_id,question.id.get))
       Ok(html.shareQuestion(question, page, orderBy, filter))
     }.getOrElse(NotFound)
+  }
+
+  //  FIX ME: improve this algorithm and put the respective solution in some js to be executed when the page loads
+  //  FIX ME: the approach to deal with "++" must to be improved and generalized to other special characters
+  def formatTags(tagString : String) : String = {
+    var stringHTML = ""
+    tagString.split(">").map(string =>
+      stringHTML = stringHTML +
+        "<a class='post-tag' href=\"/questions?f="+string.replace("<","").replace("++","%2B%2B")+"\">"+string.replace("<","")+"</a>"
+    )
+    stringHTML
+  }
+
+  //  FIX ME: improve this algorithm and put the respective solution in some js to be executed when the page loads
+  def formatCreationDateString(creationDate: Date) : String = {
+    val df: DateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    val text: String = df.format(creationDate);
+    text
   }
 }

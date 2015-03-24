@@ -10,15 +10,6 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 
 }
 
-@**********************************
-* Helper generating table headers *
-***********************************@
-@header(orderBy: Int, title: String) = {
-<th class="col@orderBy header @if(scala.math.abs(currentOrderBy) == orderBy) @{if(currentOrderBy < 0) "headerSortDown" else "headerSortUp"}">
-<a href="@link(0, Some(orderBy))">@title</a>
-</th>
-}
-
 @main {
 
 @flash.get("success").map { message =>
@@ -41,9 +32,9 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 <table id="tableListOfQuestions" class="computers zebra-striped">
     <thead>
     <tr>
-        @header(2, "Pergunta:")
-        @header(3, "Realizada em:")
-        @header(4, "Assunto(s):")
+        <td>Pergunta:</td>
+        <td>Realizada em:</td>
+        <td>Assunto(s):</td>
     </tr>
     </thead>
     <tbody>

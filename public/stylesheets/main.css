@@ -34,7 +34,6 @@ a.buttonUmaForca:hover
     background-color: #F90;
 }
 
-
 a.post-tag
 {
     text-decoration: none!important;
@@ -105,7 +104,8 @@ table.computers .col5 {
     min-width: 300px;
 }
 
-table.computers .header a {
+table.computers .header {
+    background-color: #858d93;
 }
 
 #actions {
@@ -120,12 +120,15 @@ table.computers .header a {
 
 #pagination {
     position: relative;
+    border-radius: 0!important;
 }
 
 #pagination ul {
     position: absolute;
+    border-radius: 0!important;
 }
 
 #pagination ul .current a {
     color: #666;
+    border-radius: 0!important;
 }
