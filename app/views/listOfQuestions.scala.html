@@ -33,7 +33,7 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
     <thead>
     <tr>
         <td>Pergunta:</td>
-        <td>Realizada em:</td>
+        <td>Criada em:</td>
         <td>Assunto(s):</td>
     </tr>
     </thead>
@@ -45,11 +45,11 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
         <td>
             <a href="@routes.Application.showQuestion(question.id.get, currentPage.page, currentOrderBy, currentFilter)">@question.title</a>
         </td>
-        <td>
-            @question.creationDate
+        <td class="data">
+            @question.creationDateString
         </td>
         <td>
-            @question.tags
+            @Html(question.tags)
         </td>
     </tr>
     }
@@ -57,8 +57,8 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
 
     </tbody>
 </table>
-<center>
-    <div id="pagination" class="pagination">
+<div id="pagination" class="pagination">
+    <div>
         <ul>
             @currentPage.prev.map { page =>
             <li class="prev">
@@ -70,7 +70,7 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
             </li>
             }
             <li class="current">
-                <a>Exibindo @(currentPage.offset + 1) a @(currentPage.offset + questions.size) de @currentPage.total</a>
+                <a>@(currentPage.offset + 1) a @(currentPage.offset + questions.size) de @currentPage.total</a>
             </li>
             @currentPage.next.map { page =>
             <li class="next">
@@ -83,9 +83,7 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
             }
         </ul>
     </div>
-</center>
-
-
+</div>
 }.getOrElse {
 
 <div class="well">

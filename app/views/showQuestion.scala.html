@@ -16,8 +16,25 @@
 
 <div class="actions" align="right">
     <a target="_blank" href="@question.link" class="buttonUmaForca">Responder no Stack Overflow</a>
-    <a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="buttonUmaForca">@shareMessage</a>
+    <!--<a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="buttonUmaForca">@shareMessage</a>-->
+    <script src='@routes.Assets.at("lib/jquery/jquery.js")' type="text/javascript"></script>
+    <script src='@routes.Assets.at("lib/bootstrap/js/bootstrap.min.js")' type="text/javascript"></script>
+    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
+        Popover on top
+    </button>
+    <a id="shareQuestionButton" rel="modal" href="#janela1" class="buttonUmaForca">@shareMessage</a>
     <a href="@routes.Application.listOfQuestions(page, currentOrderBy, currentFilter)" class="buttonUmaForca">Voltar</a>
 </div>
+
+<!--<a href="#janela1" rel="modal">Janela modal</a>-->
+<div class="window" id="janela1">
+    <a href="#" class="fechar">X Fechar</a>
+    <h4>Primeira janela moda</h4>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam venenatis auctor tempus. Lorem ipsum dolor sit amet,</p>
+    <p>Morbi dui lacus, placerat eget pretium vehicula, mollis id ligula. Nulla facilisi. </p>
+</div>
+
+<!-- mascara para cobrir o site -->
+<!--<div id="mascara"></div>-->
 
 }

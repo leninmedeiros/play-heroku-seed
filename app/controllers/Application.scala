@@ -86,9 +86,15 @@ object Application extends Controller {
 
   def listOfQuestions(page: Int, orderBy: Int, filter: String) = Action { implicit request =>
     //    FIX ME: this approach to deal with "++" must to be improved and generalized to other special characters
+    //    FIX ME: this approach to deal with "#" must to be improved and generalized to other special characters
+    //    FIX ME: this approach to deal with filter "c" must to be improved
+    var filterParsed : String = filter
+    if (filter.equalsIgnoreCase("c")) {
+      filterParsed = "<c>"
+    }
     Ok(html.listOfQuestions(
       QuestionTable.list(page = page, orderBy = orderBy, filter = ("%"+filter+"%")),
-      orderBy, filter.replace("%2B%2B","++")
+      orderBy, filter.replace("%2B%2B","++").replace("%23","#").replace("<c>","c")
     ))
   }
 
@@ -118,7 +124,7 @@ object Application extends Controller {
     var stringHTML = ""
     tagString.split(">").map(string =>
       stringHTML = stringHTML +
-        "<a class='post-tag' href=\"/questions?f="+string.replace("<","").replace("++","%2B%2B")+"\">"+string.replace("<","")+"</a>"
+        "<a class='post-tag' href=\"/questions?f="+string.replace("<","").replace("++","%2B%2B").replace("#","%23")+"\">"+string.replace("<","")+"</a>"
     )
     stringHTML
   }

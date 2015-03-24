@@ -9,13 +9,13 @@ input.buttonUmaForca
     line-height: 1.4;
     text-decoration: none;
     color: #fff;
-    background-color: #858d93;
+    background-color: #F90;
     border-radius: 0;
-    border-color: #fff;
+    border-width: 0;
 }
 input.buttonUmaForca:hover
 {
-    background-color: #F90;
+    background-color: #F8B95A;
 }
 
 a.buttonUmaForca
@@ -38,7 +38,7 @@ a.post-tag
 {
     text-decoration: none!important;
     color: #FFFFFF;
-    background-color: #398BCA;
+    background-color: #8CADBB;
     padding: .25em .5em;
     margin: 2px 2px 2px 0;
     font-size: 12px;
@@ -54,19 +54,25 @@ a img
 .image-link
 {
   text-decoration: none!important;
-  background-color:#FFFFFF;
   border-width:0px;
   padding:5px;
   display: inline-table;
+  padding-top: 40px;
 }
 
 div.question-body
 {
     border-top:1px solid #ddd;
-    padding-left: 1.5cm;
-    padding-right: 1.5cm;
+    padding-left: 5cm;
+    padding-right: 5cm;
     padding-top: 0.5cm;
     padding-bottom: 0.5cm;
+    color: white;
+}
+
+div.pagination
+{
+    align: right;
 }
 
 header h1 {
@@ -82,12 +88,15 @@ section#main {
     border-bottom: 1px solid #ccc;
     min-height: 600px;
     padding-top: 1em;
+    padding-right: 5cm;
+    padding-left: 5cm;
 }
 
 section#main .topRight {
     position: absolute;
     right: 20px;
     top: 70px;
+    background-color:gray;
 }
 
 table.computers em {
@@ -106,6 +115,7 @@ table.computers .col5 {
 
 table.computers .header {
     background-color: #858d93;
+    font-size: 15px;
 }
 
 #actions {
@@ -126,9 +136,46 @@ table.computers .header {
 #pagination ul {
     position: absolute;
     border-radius: 0!important;
+    background-color: white!important;
+    right: 0;
+}
+
+p.info {
+    color: white;
+    display: inline;
+    left: 0;
 }
 
 #pagination ul .current a {
     color: #666;
     border-radius: 0!important;
+    background-color: white!important;
 }
+
+td.data {
+    width: 80px;
+}
+
+.window{
+    display:none;
+    width:300px;
+    height:300px;
+    position:absolute;
+    left:0;
+    top:0;
+    background:#FFF;
+    z-index:9900;
+    padding:10px;
+    border-radius:10px;
+}
+
+#mascara{
+    display:none;
+    position:absolute;
+    left:0;
+    top:0;
+    z-index:9000;
+    background-color:#000;
+}
+
+.fechar{display:block; text-align:right;}

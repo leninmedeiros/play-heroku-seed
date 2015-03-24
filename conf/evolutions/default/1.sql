@@ -1,27 +1,27 @@
 # --- !Ups
---Table 'question' ups codes - INIT
-
-CREATE TABLE "question" (
-    "id" SERIAL NOT NULL PRIMARY KEY,
-    "title" TEXT,
-    "body" TEXT,
-    "creationDate" DATE,
-    "tags" TEXT
-);
-
---You'll need to change the path of QuestionsReducedParsed.csv
---To execute this, go to the PostgreSQL database (this is a psql command)
---Remember: you'll need to comment this line when deploying
---Finally, you'll need to set the file's permission if necessary
-\copy "question" from '/home/lenin/workspace/activator-1.2.12/play-heroku-seed/QuestionsReducedParsed.csv' WITH DELIMITER ',' CSV HEADER;
-
-ALTER TABLE question ADD COLUMN link TEXT DEFAULT NULL;
-
-UPDATE question SET link = 'http://pt.stackoverflow.com/questions/'||CAST(id AS TEXT)||'#post-editor';
-
-ALTER TABLE question ADD COLUMN creationDateString TEXT DEFAULT NULL;
-
---Table 'question' ups codes - END
+----Table 'question' ups codes - INIT
+--
+--CREATE TABLE "question" (
+--    "id" SERIAL NOT NULL PRIMARY KEY,
+--    "title" TEXT,
+--    "body" TEXT,
+--    "creationDate" DATE,
+--    "tags" TEXT
+--);
+--
+----You'll need to change the path of QuestionsReducedParsed.csv
+----To execute this, go to the PostgreSQL database (this is a psql command)
+----Remember: you'll need to comment this line when deploying
+----Finally, you'll need to set the file's permission if necessary
+--\copy "question" from '/home/lenin/workspace/activator-1.2.12-minimal/play-heroku-seed/QuestionsReducedParsed.csv' WITH DELIMITER ',' CSV HEADER;
+--
+--ALTER TABLE question ADD COLUMN link TEXT DEFAULT NULL;
+--
+--UPDATE question SET link = 'http://pt.stackoverflow.com/questions/'||CAST(id AS TEXT)||'#post-editor';
+--
+--ALTER TABLE question ADD COLUMN "creationDateString" TEXT DEFAULT 'dd/MM/aaaa';
+--
+----Table 'question' ups codes - END
 
 CREATE TABLE "configuration" (
     "id" SERIAL NOT NULL PRIMARY KEY,
