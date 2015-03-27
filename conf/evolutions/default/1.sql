@@ -13,14 +13,14 @@
 ----To execute this, go to the PostgreSQL database (this is a psql command)
 ----Remember: you'll need to comment this line when deploying
 ----Finally, you'll need to set the file's permission if necessary
---\copy "question" from '/home/lenin/workspace/activator-1.2.12-minimal/play-heroku-seed/QuestionsReducedParsed.csv' WITH DELIMITER ',' CSV HEADER;
+--\copy "question" from '/home/lenin/workspace/activator-1.2.12/play-heroku-seed/QuestionsReducedParsed.csv' WITH DELIMITER ',' CSV HEADER;
 --
---ALTER TABLE question ADD COLUMN link TEXT DEFAULT NULL;
---
---UPDATE question SET link = 'http://pt.stackoverflow.com/questions/'||CAST(id AS TEXT)||'#post-editor';
---
---ALTER TABLE question ADD COLUMN "creationDateString" TEXT DEFAULT 'dd/MM/aaaa';
---
+ALTER TABLE question ADD COLUMN link TEXT DEFAULT NULL;
+
+UPDATE question SET link = 'http://pt.stackoverflow.com/questions/'||CAST(id AS TEXT)||'#post-editor';
+
+ALTER TABLE question ADD COLUMN "creationDateString" TEXT DEFAULT 'dd/MM/aaaa';
+
 ----Table 'question' ups codes - END
 
 CREATE TABLE "configuration" (
@@ -67,5 +67,4 @@ DROP TABLE "shared_question";
 DROP TABLE "user_configuration";
 DROP TABLE "last_configuration";
 DROP TABLE "configuration";
-
---DROP TABLE "question";
+DROP TABLE "question";

@@ -6,8 +6,10 @@
 
 @main {
 
+<script src='@routes.Assets.at("javascripts/showQuestion.js")' type="text/javascript"></script>
+
 <div class="question-title">
-    <h1>@question.title</h1>
+    @question.title
 </div>
 
 <div class="question-body">
@@ -15,26 +17,29 @@
 </div>
 
 <div class="actions" align="right">
+    <!--<span class="icon-google-plus2"></span>-->
+    <!--<span class="icon-facebook2"></span>-->
+    <!--<span class="icon-twitter2"></span>-->
     <a target="_blank" href="@question.link" class="buttonUmaForca">Responder no Stack Overflow</a>
-    <!--<a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="buttonUmaForca">@shareMessage</a>-->
-    <script src='@routes.Assets.at("lib/jquery/jquery.js")' type="text/javascript"></script>
-    <script src='@routes.Assets.at("lib/bootstrap/js/bootstrap.min.js")' type="text/javascript"></script>
-    <button type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="top" data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus.">
-        Popover on top
+    <script type="text/javascript">
+        // IMPROVE THIS SOLUTION!
+        function setShareButtonColor() {
+            console.log("Entrou em setShareButtonColor()");
+            if ($('#shareButton').attr("style") == "background-color: #858d93;") {
+                $('#shareButton').attr("style", "background-color: #F90;");
+            } else {
+                $('#shareButton').attr("style", "background-color: #858d93;")
+            }
+        }
+    </script>
+    <button type="button" class="buttonUmaForca"
+            data-container="body" data-toggle="popover"
+            data-placement="bottom" data-content="g+ f t"
+            onclick="setShareButtonColor()" id="shareButton"
+            style="background-color: #858d93;">
+        @shareMessage
     </button>
-    <a id="shareQuestionButton" rel="modal" href="#janela1" class="buttonUmaForca">@shareMessage</a>
+    <!--<a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="buttonUmaForca">@shareMessage</a>-->
     <a href="@routes.Application.listOfQuestions(page, currentOrderBy, currentFilter)" class="buttonUmaForca">Voltar</a>
 </div>
-
-<!--<a href="#janela1" rel="modal">Janela modal</a>-->
-<div class="window" id="janela1">
-    <a href="#" class="fechar">X Fechar</a>
-    <h4>Primeira janela moda</h4>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam venenatis auctor tempus. Lorem ipsum dolor sit amet,</p>
-    <p>Morbi dui lacus, placerat eget pretium vehicula, mollis id ligula. Nulla facilisi. </p>
-</div>
-
-<!-- mascara para cobrir o site -->
-<!--<div id="mascara"></div>-->
-
 }
