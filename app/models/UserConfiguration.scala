@@ -31,6 +31,9 @@ object UserConfigurationTable {
   def findByIp(ip: String): List[UserConfiguration]= db.withSession{ implicit session =>
     users.filter(_.ip === ip).list
   }
+  def findLastUser: UserConfiguration = db.withSession{ implicit session =>
+    users.sortBy(_.id.desc).first
+  }
   def update(updateUser: UserConfiguration) = db.withTransaction{ implicit session =>
     users.filter(_.id === updateUser.id).update(updateUser)
   }

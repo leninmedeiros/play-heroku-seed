@@ -39,11 +39,11 @@ INSERT INTO configuration (id, message)
 INSERT INTO configuration (id, message)
     VALUES (3, 'Algum amigo seu pode saber a resposta. Compartilhe!');
 
-CREATE TABLE "last_configuration" (
-    "id" SERIAL NOT NULL PRIMARY KEY REFERENCES configuration (id)
-);
-
-INSERT INTO last_configuration (id) VALUES(0);
+--CREATE TABLE "last_configuration" (
+--    "id" SERIAL NOT NULL PRIMARY KEY REFERENCES configuration (id)
+--);
+--
+--INSERT INTO last_configuration (id) VALUES(0);
 
 CREATE TABLE "user_configuration" (
     "id" SERIAL NOT NULL PRIMARY KEY,
@@ -64,10 +64,12 @@ CREATE TABLE "displayed_question" (
     "question_id" INT NOT NULL REFERENCES question (id)
 );
 
+-- end of ups
+
 # --- !Downs
 DROP TABLE "displayed_question";
 DROP TABLE "shared_question";
 DROP TABLE "user_configuration";
-DROP TABLE "last_configuration";
+--DROP TABLE "last_configuration";
 DROP TABLE "configuration";
-DROP TABLE "question";
+--DROP TABLE "question";

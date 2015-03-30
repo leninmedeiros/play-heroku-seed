@@ -26,6 +26,7 @@ import scala.util.matching.Regex
 
 object Application extends Controller {
   var current_user_ip = ""
+  val FIRST_CONFIGURATION_TYPE = 1
   val LAST_CONFIGURATION_TYPE = 3
   var current_share_message = ""
 
@@ -35,38 +36,35 @@ object Application extends Controller {
   val Home = Redirect(routes.Application.listOfQuestions(0, 4, ""))
 
   def preConfig(request:String): Unit = {
-    // formatar as datas das questões
-    // formatar as tags das questões
-    //    FIX ME: put this solution in some js to be executed when the page loads to avoid this data update in db
-    if (UserConfigurationTable.listUsers.isEmpty) {
-      QuestionTable.listQuestions.map { question =>
-        QuestionTable.update(Question(question.id,question.title,
-          question.body,question.creationDate,question.link,
-          this.formatTags(question.tags),this.formatCreationDateString(question.creationDate), this.formatQuestionTitleHtml(question.body)))
-      }
-    }
 
-    var current_last_configuration:LastConfiguration = new LastConfiguration(Some(0)) // last new configuration
-    var current_configuration = 0 // the current configuration
-    val lc = LastConfigurationTable.findLastConfiguration // get last new configuration
-    val id:Option[Any] = lc.id
-    val messageConfigurationNumber = id match {
-      case Some(x:Int) => x
-      case _ => Int.MinValue
-    }
-    if(messageConfigurationNumber == LAST_CONFIGURATION_TYPE) {
-      current_last_configuration = new LastConfiguration(Some(1))
-    } else {
-      current_last_configuration = new LastConfiguration(Some(messageConfigurationNumber+1))
-    }
+    var current_configuration : Int = 0
+
     current_user_ip = request
     println("o ip do usuário atual é: " + current_user_ip)
 
     if (UserConfigurationTable.findByIp(current_user_ip).isEmpty) {
       println("não existe usuário salvo com este ip")
-      UserConfigurationTable.insert(UserConfiguration(None,current_last_configuration.id.get,current_user_ip))
-      current_configuration = current_last_configuration.id.get
-      LastConfigurationTable.insert(current_last_configuration)
+      if (UserConfigurationTable.listUsers.isEmpty) {
+        println("ainda não existe nenhum usuário salvo")
+        QuestionTable.listQuestions.map { question =>
+          QuestionTable.update(Question(question.id,question.title,
+            question.body,question.creationDate,question.link,
+            this.formatTags(question.tags),this.formatCreationDateString(question.creationDate), this.formatQuestionTitleHtml(question.body)))
+        }
+
+        UserConfigurationTable.insert(UserConfiguration(None, FIRST_CONFIGURATION_TYPE, current_user_ip))
+
+      } else {
+        println("existem usuários salvos")
+        val lastUser : UserConfiguration = UserConfigurationTable.findLastUser
+        val current_user_config_id = lastUser.configuration_id match {
+          case LAST_CONFIGURATION_TYPE => FIRST_CONFIGURATION_TYPE
+          case x:Int => x+1
+        }
+
+        UserConfigurationTable.insert(UserConfiguration(None, current_user_config_id, current_user_ip))
+      }
+
     } else {
       println("já existe um usuário salvo com este ip")
       UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
