@@ -22,6 +22,8 @@ import anorm._
 import views._
 import models._
 
+import scala.util.matching.Regex
+
 object Application extends Controller {
   var current_user_ip = ""
   val LAST_CONFIGURATION_TYPE = 3
@@ -32,7 +34,7 @@ object Application extends Controller {
    */
   val Home = Redirect(routes.Application.listOfQuestions(0, 4, ""))
 
-  def index = Action { request =>
+  def preConfig(request:String): Unit = {
     // formatar as datas das questões
     // formatar as tags das questões
     //    FIX ME: put this solution in some js to be executed when the page loads to avoid this data update in db
@@ -57,7 +59,7 @@ object Application extends Controller {
     } else {
       current_last_configuration = new LastConfiguration(Some(messageConfigurationNumber+1))
     }
-    current_user_ip = request.remoteAddress
+    current_user_ip = request
     println("o ip do usuário atual é: " + current_user_ip)
 
     if (UserConfigurationTable.findByIp(current_user_ip).isEmpty) {
@@ -80,11 +82,18 @@ object Application extends Controller {
     }
 
     println("current_share_message é: "+current_share_message)
+  }
 
+  def index = Action { request =>
+    preConfig(request.remoteAddress)
+    QuestionTable.findById(21501).map { question =>
+      println(this.formatQuestionTitleHtml(question.body))
+    }
     Home
 	}
 
   def listOfQuestions(page: Int, orderBy: Int, filter: String) = Action { implicit request =>
+    preConfig(request.remoteAddress)
     //    FIX ME: this approach to deal with "++" must to be improved and generalized to other special characters
     //    FIX ME: this approach to deal with "#" must to be improved and generalized to other special characters
     //    FIX ME: this approach to deal with filter "c" must to be improved
@@ -99,12 +108,14 @@ object Application extends Controller {
   }
 
   def showQuestion(id: Int, page: Int, orderBy: Int, filter: String) = Action { implicit request =>
+    preConfig(request.remoteAddress)
     QuestionTable.findById(id).map { question =>
       Ok(html.showQuestion(question, this.current_share_message, page, orderBy, filter))
     }.getOrElse(NotFound)
   }
 
   def shareQuestion(id: Int, page: Int, orderBy: Int, filter: String) = Action { implicit request =>
+    preConfig(request.remoteAddress)
     var user_id : Int = -100
     UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
       user_id = user_configuration.id match {
@@ -114,7 +125,7 @@ object Application extends Controller {
     }
     QuestionTable.findById(id).map { question =>
       SharedQuestionTable.insert(SharedQuestion(None,user_id,question.id.get))
-      Ok(html.shareQuestion(question, page, orderBy, filter))
+      Ok(html.showQuestion(question, this.current_share_message, page, orderBy, filter))
     }.getOrElse(NotFound)
   }
 
@@ -134,5 +145,18 @@ object Application extends Controller {
     val df: DateFormat = new SimpleDateFormat("dd/MM/yyyy");
     val text: String = df.format(creationDate);
     text
+  }
+
+  //  FIX ME: improve this algorithm and put the respective solution in some js to be executed when the page loads
+  def formatQuestionTitleHtml(title : String) : String = {
+    val CHAR_LIMIT : Int = 500
+    val pattern = new Regex("<p>(.*?)</p>.*")
+    val parsedTitleHtml : String =
+      (pattern findAllIn title).mkString(" [...] ").replace("<p>","").replace("</p>","")
+    if (parsedTitleHtml.length() > CHAR_LIMIT) {
+      parsedTitleHtml.substring(0,CHAR_LIMIT)+"..."
+    } else {
+      parsedTitleHtml
+    }
   }
 }

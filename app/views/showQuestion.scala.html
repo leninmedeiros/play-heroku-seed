@@ -17,29 +17,42 @@
 </div>
 
 <div class="actions" align="right">
-    <!--<span class="icon-google-plus2"></span>-->
-    <!--<span class="icon-facebook2"></span>-->
-    <!--<span class="icon-twitter2"></span>-->
     <a target="_blank" href="@question.link" class="buttonUmaForca">Responder no Stack Overflow</a>
     <script type="text/javascript">
         // IMPROVE THIS SOLUTION!
         function setShareButtonColor() {
             console.log("Entrou em setShareButtonColor()");
-            if ($('#shareButton').attr("style") == "background-color: #858d93;") {
-                $('#shareButton').attr("style", "background-color: #F90;");
+            if ($('#shareButton').attr("clicked") == "false") {
+                $('#shareButton').attr("clicked", "true")
             } else {
-                $('#shareButton').attr("style", "background-color: #858d93;")
+                $('#shareButton').attr("clicked", "false")
+                $('#shareButton').blur()
             }
         }
     </script>
     <button type="button" class="buttonUmaForca"
             data-container="body" data-toggle="popover"
-            data-placement="bottom" data-content="g+ f t"
+            data-placement="bottom"
             onclick="setShareButtonColor()" id="shareButton"
-            style="background-color: #858d93;">
+            clicked="false">
         @shareMessage
     </button>
     <!--<a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="buttonUmaForca">@shareMessage</a>-->
     <a href="@routes.Application.listOfQuestions(page, currentOrderBy, currentFilter)" class="buttonUmaForca">Voltar</a>
+</div>
+
+<div id="popoverContent" style="display: none">
+    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)"
+       onclick="window.open('https://plus.google.com/share?url=@question.link')">
+        <span id="ico-google-plus" class="icon-google-plus2"></span>
+    </a>
+    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)"
+       onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@question.link')">
+        <span id="ico-facebook" class="icon-facebook2"></span>
+    </a>
+    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)"
+       onclick="window.open('https://twitter.com/intent/tweet?text=Será+que+você+pode+ajudar?&url=@question.link')">
+        <span id="ico-twitter" class="icon-twitter2"></span>
+    </a>
 </div>
 }

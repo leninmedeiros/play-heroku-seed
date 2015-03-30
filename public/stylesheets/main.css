@@ -52,6 +52,7 @@ button.buttonUmaForca:hover
 button.buttonUmaForca:focus
 {
     outline:0;
+    background-color: #F90;
 }
 
 a.post-tag
@@ -75,13 +76,13 @@ a img
 {
   text-decoration: none!important;
   border-width:0px;
-  padding:5px;
+  padding:1px;
   display: inline-table;
-  padding-top: 40px;
 }
 .image-link img.favico
 {
     max-width: 1100px!important;
+    padding-top: 40px;
 }
 
 div.question-body
@@ -213,13 +214,14 @@ td.data {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 
-	color: white;
-	font-size: 25px;
+	font-size: 30px;
 	display: inline-table;
+	padding-top: 0.05cm;
 }
 
 .icon-google-plus2:before {
 	content: "\ea89";
+	color: #CF4832;
 }
 
 .icon-google-plus3:before {
@@ -228,6 +230,7 @@ td.data {
 
 .icon-facebook2:before {
 	content: "\ea8d";
+	color: #305891;
 }
 
 .icon-facebook3:before {
@@ -236,6 +239,7 @@ td.data {
 
 .icon-twitter2:before {
 	content: "\ea92";
+	color: #2CA8D2;
 }
 
 .icon-twitter3:before {
