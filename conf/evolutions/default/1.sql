@@ -13,13 +13,14 @@
 ----To execute this, go to the PostgreSQL database (this is a psql command)
 ----Remember: you'll need to comment this line when deploying
 ----Finally, you'll need to set the file's permission if necessary
---\copy "question" from '/home/lenin/workspace/activator-1.2.12/play-heroku-seed/QuestionsReducedParsed.csv' WITH DELIMITER ',' CSV HEADER;
---
+--\copy "question" from '/home/lenin/workspace/activator-1.2.12-minimal/play-heroku-seed/QuestionsReducedParsed.csv' WITH DELIMITER ',' CSV HEADER;
 ALTER TABLE question ADD COLUMN link TEXT DEFAULT NULL;
 
 UPDATE question SET link = 'http://pt.stackoverflow.com/questions/'||CAST(id AS TEXT)||'#post-editor';
 
 ALTER TABLE question ADD COLUMN "creationDateString" TEXT DEFAULT 'dd/MM/aaaa';
+
+ALTER TABLE question ADD COLUMN "titleHtml" TEXT DEFAULT 'Clique para visualizar esta questão.';
 
 ----Table 'question' ups codes - END
 
@@ -52,7 +53,8 @@ CREATE TABLE "user_configuration" (
 CREATE TABLE "shared_question" (
     "id" SERIAL NOT NULL PRIMARY KEY,
     "user_configuration_id" INT NOT NULL REFERENCES user_configuration (id),
-    "question_id" INT NOT NULL REFERENCES question (id)
+    "question_id" INT NOT NULL REFERENCES question (id),
+    "typeOfShare" INT NOT NULL
 );
 
 CREATE TABLE "displayed_question" (

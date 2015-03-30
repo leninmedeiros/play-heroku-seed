@@ -43,14 +43,7 @@ if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
     case (question) => {
     <tr>
         <td>
-            <script type="text/javascript">
-                // IMPROVE THIS SOLUTION!
-                function setQuestionTitle() {
-                    console.log("Entrou em setQuestionTitle()");
-                    console.log(question);
-                }
-            </script>
-            <a id="@question.id.get" onmouseover="setQuestionTitle()" href="@routes.Application.showQuestion(question.id.get, currentPage.page, currentOrderBy, currentFilter)">@question.title</a>
+            <a id="@question.id.get" title="@question.titleHtml" href="@routes.Application.showQuestion(question.id.get, currentPage.page, currentOrderBy, currentFilter)">@question.title</a>
         </td>
         <td class="data">
             @question.creationDateString

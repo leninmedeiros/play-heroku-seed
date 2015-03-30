@@ -5,7 +5,8 @@ import scala.slick.driver.PostgresDriver.simple._
 import play.api.Play.current
 
 case class Question(id: Option[Int] = None, title: String, body: String,
-                    creationDate: Date, link: String, tags: String, creationDateString: String)
+                    creationDate: Date, link: String, tags: String, creationDateString: String,
+                    titleHtml: String)
 
 
 class QuestionTable(tag: Tag) extends Table[Question](tag, "question") {
@@ -17,9 +18,10 @@ class QuestionTable(tag: Tag) extends Table[Question](tag, "question") {
   def link = column[String]("link")
   def tags = column[String]("tags")
   def creationDateString = column[String]("creationDateString")
+  def titleHtml = column[String]("titleHtml")
   // the * projection (e.g. select * ...) auto-transforms the tupled
   // column values to / from a Configuration
-  def * = (id.?, title, body, creationDate, link, tags, creationDateString) <> (Question.tupled, Question.unapply)
+  def * = (id.?, title, body, creationDate, link, tags, creationDateString, titleHtml) <> (Question.tupled, Question.unapply)
 }
 
 /**

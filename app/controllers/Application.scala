@@ -42,7 +42,7 @@ object Application extends Controller {
       QuestionTable.listQuestions.map { question =>
         QuestionTable.update(Question(question.id,question.title,
           question.body,question.creationDate,question.link,
-          this.formatTags(question.tags),this.formatCreationDateString(question.creationDate)))
+          this.formatTags(question.tags),this.formatCreationDateString(question.creationDate), this.formatQuestionTitleHtml(question.body)))
       }
     }
 
@@ -109,12 +109,21 @@ object Application extends Controller {
 
   def showQuestion(id: Int, page: Int, orderBy: Int, filter: String) = Action { implicit request =>
     preConfig(request.remoteAddress)
+    var user_id : Int = -100
+    UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
+      user_id = user_configuration.id match {
+        case Some(x:Int) => x
+        case _ => user_id
+      }
+    }
+    DisplayedQuestionTable.insert(DisplayedQuestion(None,user_id,id))
     QuestionTable.findById(id).map { question =>
       Ok(html.showQuestion(question, this.current_share_message, page, orderBy, filter))
     }.getOrElse(NotFound)
   }
 
-  def shareQuestion(id: Int, page: Int, orderBy: Int, filter: String) = Action { implicit request =>
+  def shareQuestion(id: Int, page: Int, orderBy: Int, filter: String, typeOfShare: Int) = Action { implicit request =>
+
     preConfig(request.remoteAddress)
     var user_id : Int = -100
     UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
@@ -124,7 +133,7 @@ object Application extends Controller {
       }
     }
     QuestionTable.findById(id).map { question =>
-      SharedQuestionTable.insert(SharedQuestion(None,user_id,question.id.get))
+      SharedQuestionTable.insert(SharedQuestion(None,user_id,question.id.get,typeOfShare))
       Ok(html.showQuestion(question, this.current_share_message, page, orderBy, filter))
     }.getOrElse(NotFound)
   }

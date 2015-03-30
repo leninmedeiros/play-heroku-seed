@@ -24,7 +24,7 @@
             console.log("Entrou em setShareButtonColor()");
             if ($('#shareButton').attr("clicked") == "false") {
                 $('#shareButton').attr("clicked", "true")
-            } else {
+            } else {clear
                 $('#shareButton').attr("clicked", "false")
                 $('#shareButton').blur()
             }
@@ -37,22 +37,21 @@
             clicked="false">
         @shareMessage
     </button>
-    <!--<a href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)" class="buttonUmaForca">@shareMessage</a>-->
     <a href="@routes.Application.listOfQuestions(page, currentOrderBy, currentFilter)" class="buttonUmaForca">Voltar</a>
 </div>
 
 <div id="popoverContent" style="display: none">
-    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)"
+    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter, 1)"
        onclick="window.open('https://plus.google.com/share?url=@question.link')">
-        <span id="ico-google-plus" class="icon-google-plus2"></span>
+        <span id="ico-google-plus" class="icon-google-plus3"></span>
     </a>
-    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)"
+    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter, 2)"
        onclick="window.open('https://www.facebook.com/sharer/sharer.php?u=@question.link')">
-        <span id="ico-facebook" class="icon-facebook2"></span>
+        <span id="ico-facebook" class="icon-facebook3"></span>
     </a>
-    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter)"
+    <a class="image-link" href="@routes.Application.shareQuestion(question.id.get, page, currentOrderBy, currentFilter, 3)"
        onclick="window.open('https://twitter.com/intent/tweet?text=Será+que+você+pode+ajudar?&url=@question.link')">
-        <span id="ico-twitter" class="icon-twitter2"></span>
+        <span id="ico-twitter" class="icon-twitter3"></span>
     </a>
 </div>
 }

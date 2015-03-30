@@ -90,7 +90,7 @@ div.question-body
     border-top:1px solid #ddd;
     padding-left: 3cm;
     padding-right: 3cm;
-    padding-top: 0.5cm;
+    padding-top: 1cm;
     padding-bottom: 0.5cm;
     color: white;
 }
@@ -221,7 +221,6 @@ td.data {
 
 .icon-google-plus2:before {
 	content: "\ea89";
-	color: #CF4832;
 }
 
 .icon-google-plus3:before {
@@ -230,7 +229,6 @@ td.data {
 
 .icon-facebook2:before {
 	content: "\ea8d";
-	color: #305891;
 }
 
 .icon-facebook3:before {
@@ -239,7 +237,6 @@ td.data {
 
 .icon-twitter2:before {
 	content: "\ea92";
-	color: #2CA8D2;
 }
 
 .icon-twitter3:before {
