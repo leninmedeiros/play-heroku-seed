@@ -60,6 +60,7 @@ CREATE TABLE "displayed_question" (
 -- end of ups
 
 # --- !Downs
+
 --DROP TABLE "displayed_question";
 --DROP TABLE "shared_question";
 --DROP TABLE "user_configuration";
