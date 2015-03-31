@@ -38,23 +38,25 @@ object Application extends Controller {
    */
   val Home = Redirect(routes.Application.listOfQuestions(0, 4, ""))
 
-  def preConfig(request:String): Unit = {
+  def preConfig(request:Request[AnyContent]): Unit = {
+    var ip : String = ""
 
-    val whatismyip : URL = new URL("http://checkip.amazonaws.com");
-    val in : BufferedReader = new BufferedReader(new InputStreamReader(
-      whatismyip.openStream()));
-
-    val ip : String = in.readLine(); //you get the IP as a String
+    if (request.headers.get("X-Forwareded-For") != None) {
+      ip = request.headers.get("X-Forwareded-For").get
+    } else {
+      ip = request.remoteAddress
+    }
 
     var current_configuration : Int = 0
 
     current_user_ip = ip
-    println("o ip do usuário atual é: " + current_user_ip)
+    println("Entrou no preConfig.")
+    println("O IP do usuário atual é: " + current_user_ip)
 
     if (UserConfigurationTable.findByIp(current_user_ip).isEmpty) {
-      println("não existe usuário salvo com este ip")
+      println("Não existe usuário salvo com este IP.")
       if (UserConfigurationTable.listUsers.isEmpty) {
-        println("ainda não existe nenhum usuário salvo")
+        println("Ainda não existe nenhum usuário salvo no banco de dados.")
 
         QuestionTable.listQuestions.map { question =>
           QuestionTable.update(Question(question.id,question.title,
@@ -63,24 +65,24 @@ object Application extends Controller {
         }
 
         current_configuration = FIRST_CONFIGURATION_TYPE
-        println("salvando usuário com configuração "+current_configuration)
+        println("Salvando usuário com configuração "+current_configuration)
         UserConfigurationTable.insert(UserConfiguration(None, current_configuration, current_user_ip))
 
       } else {
-        println("existem usuários salvos")
+        println("Já existem usuários salvos no banco de dados.")
         val lastUser : UserConfiguration = UserConfigurationTable.findLastUser
         val current_user_config_id = lastUser.configuration_id match {
           case LAST_CONFIGURATION_TYPE => FIRST_CONFIGURATION_TYPE
           case x:Int => x+1
         }
-
+        println("Salvando usuário com configuração "+current_user_config_id)
         UserConfigurationTable.insert(UserConfiguration(None, current_user_config_id, current_user_ip))
 
         current_configuration = current_user_config_id
       }
 
     } else {
-      println("já existe um usuário salvo com este ip")
+      println("Já existe um usuário salvo com este IP")
       UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
         current_configuration = user_configuration.configuration_id
       }
@@ -93,15 +95,17 @@ object Application extends Controller {
       }
     }
 
-    println("current_share_message é: "+current_share_message)
+    println("O valor de current_share_message é: "+current_share_message)
   }
 
   def index = Action { request =>
+    println("Entrou no index.")
+    println("X-Forwareded-For: "+request.headers.get("X-Forwareded-For"))
     Home
 	}
 
   def listOfQuestions(page: Int, orderBy: Int, filter: String) = Action { implicit request =>
-    preConfig(request.remoteAddress)
+    preConfig(request)
     //    FIX ME: this approach to deal with "++" must to be improved and generalized to other special characters
     //    FIX ME: this approach to deal with "#" must to be improved and generalized to other special characters
     //    FIX ME: this approach to deal with filter "c" must to be improved
@@ -116,7 +120,7 @@ object Application extends Controller {
   }
 
   def showQuestion(id: Int, page: Int, orderBy: Int, filter: String) = Action { implicit request =>
-    preConfig(request.remoteAddress)
+    preConfig(request)
     var user_id : Int = -100
     UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
       user_id = user_configuration.id match {
@@ -131,8 +135,7 @@ object Application extends Controller {
   }
 
   def shareQuestion(id: Int, page: Int, orderBy: Int, filter: String, typeOfShare: Int) = Action { implicit request =>
-
-    preConfig(request.remoteAddress)
+    preConfig(request)
     var user_id : Int = -100
     UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
       user_id = user_configuration.id match {

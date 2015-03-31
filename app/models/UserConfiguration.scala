@@ -22,11 +22,15 @@ object UserConfigurationTable {
     users.sortBy(_.id.asc.nullsFirst).list
   }
   def insert(newUser: UserConfiguration) = db.withTransaction{ implicit session =>
+    println("Mensagem do insert de UserConfigurationTable - INIT")
     if (this.findByIp(newUser.ip).isEmpty) {
+      println("Não existe nenhum usuário salvo com IP "+newUser.ip+". Salvando usuário...")
       users += newUser
     } else {
+      println("Já existe usuário salvo com IP "+newUser.ip+". Atualizando usuário...")
       this.update(newUser)
     }
+    println("Mensagem do insert de UserConfigurationTable - END")
   }
   def findByIp(ip: String): List[UserConfiguration]= db.withSession{ implicit session =>
     users.filter(_.ip === ip).list
