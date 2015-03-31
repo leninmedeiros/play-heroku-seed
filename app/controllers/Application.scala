@@ -24,6 +24,9 @@ import models._
 
 import scala.util.matching.Regex
 
+import java.net._;
+import java.io._;
+
 object Application extends Controller {
   var current_user_ip = ""
   val FIRST_CONFIGURATION_TYPE = 1
@@ -37,22 +40,31 @@ object Application extends Controller {
 
   def preConfig(request:String): Unit = {
 
+    val whatismyip : URL = new URL("http://checkip.amazonaws.com");
+    val in : BufferedReader = new BufferedReader(new InputStreamReader(
+      whatismyip.openStream()));
+
+    val ip : String = in.readLine(); //you get the IP as a String
+
     var current_configuration : Int = 0
 
-    current_user_ip = request
+    current_user_ip = ip
     println("o ip do usuário atual é: " + current_user_ip)
 
     if (UserConfigurationTable.findByIp(current_user_ip).isEmpty) {
       println("não existe usuário salvo com este ip")
       if (UserConfigurationTable.listUsers.isEmpty) {
         println("ainda não existe nenhum usuário salvo")
+
         QuestionTable.listQuestions.map { question =>
           QuestionTable.update(Question(question.id,question.title,
             question.body,question.creationDate,question.link,
             this.formatTags(question.tags),this.formatCreationDateString(question.creationDate), this.formatQuestionTitleHtml(question.body)))
         }
 
-        UserConfigurationTable.insert(UserConfiguration(None, FIRST_CONFIGURATION_TYPE, current_user_ip))
+        current_configuration = FIRST_CONFIGURATION_TYPE
+        println("salvando usuário com configuração "+current_configuration)
+        UserConfigurationTable.insert(UserConfiguration(None, current_configuration, current_user_ip))
 
       } else {
         println("existem usuários salvos")
@@ -63,6 +75,8 @@ object Application extends Controller {
         }
 
         UserConfigurationTable.insert(UserConfiguration(None, current_user_config_id, current_user_ip))
+
+        current_configuration = current_user_config_id
       }
 
     } else {
@@ -83,10 +97,6 @@ object Application extends Controller {
   }
 
   def index = Action { request =>
-    preConfig(request.remoteAddress)
-    QuestionTable.findById(21501).map { question =>
-      println(this.formatQuestionTitleHtml(question.body))
-    }
     Home
 	}
 
