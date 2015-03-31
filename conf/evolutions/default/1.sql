@@ -57,12 +57,6 @@ CREATE TABLE "displayed_question" (
     "question_id" INT NOT NULL REFERENCES question (id)
 );
 
-
-
-
-
--- end of ups
-
 # --- !Downs
 
 --DROP TABLE "displayed_question";
