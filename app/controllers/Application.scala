@@ -41,8 +41,10 @@ object Application extends Controller {
   def preConfig(request:Request[AnyContent]): Unit = {
     var ip : String = ""
 
-    if (request.headers.get("X-Forwareded-For") != None) {
-      ip = request.headers.get("X-Forwareded-For").get
+    println("X-Forwarded-For: "+request.headers.get("X-Forwarded-For"))
+
+    if (request.headers.get("X-Forwarded-For") != None) {
+      ip = request.headers.get("X-Forwarded-For").get
     } else {
       ip = request.remoteAddress
     }
@@ -100,7 +102,6 @@ object Application extends Controller {
 
   def index = Action { request =>
     println("Entrou no index.")
-    println("X-Forwareded-For: "+request.headers.get("X-Forwareded-For"))
     Home
 	}
 
