@@ -180,4 +180,18 @@ object Application extends Controller {
       parsedTitleHtml
     }
   }
+
+  def clickToShare(questionId : Int) = Action { implicit request =>
+//    response().setContentType("text/javascript");
+    var user_id : Int = - 100
+    UserConfigurationTable.findByIp(current_user_ip).map { user_configuration =>
+      user_id = user_configuration.id match {
+        case Some(x:Int) => x
+        case _ => user_id
+      }
+    }
+    val click : ClickToShareQuestion = new ClickToShareQuestion(None,user_id,questionId)
+    ClickToShareQuestionTable.insert(click)
+    Ok("Salvando click no botão de compartilhar (msg de Application.scala)...")
+  }
 }

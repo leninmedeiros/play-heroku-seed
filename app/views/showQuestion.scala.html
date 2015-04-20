@@ -17,12 +17,15 @@
 </div>
 
 <div class="actions" align="right">
-    <a target="_blank" href="@question.link" class="buttonUmaForca">Responder no Stack Overflow</a>
+    <a target="_blank" href="@question.link#post-editor" class="buttonUmaForca">Responder no Stack Overflow</a>
     <script type="text/javascript">
         // IMPROVE THIS SOLUTION!
         function setShareButtonColor() {
             console.log("Entrou em setShareButtonColor()");
             if ($('#shareButton').attr("clicked") == "false") {
+                $.post( "/clickToShare/@question.id", function( data ) {
+                    console.log("Salvando click no botão de compartilhar (msg do js)...");
+                });
                 $('#shareButton').attr("clicked", "true")
             } else {
                 $('#shareButton').attr("clicked", "false")
